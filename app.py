@@ -84,3 +84,31 @@ with st.sidebar:
 df_plot = df_long[
     (df_long['age'].isin(age))
 ]
+
+
+# 「年度」という文字列を除去し、調査年を数値型に変換する
+df_plot['year'] = df_plot['調査年'].str.replace('年度', '').astype(int)
+
+# 散布図の作成
+fig = px.scatter(
+    df_plot,
+    x='year',
+    y='minutes',
+    color=color,
+    labels={
+        'year': '調査年',
+        'minutes': '平均時間（分）'
+    },
+    trendline='ols',
+    title='年次別平均活動時間の推移'
+)
+
+fig2 = px.box(
+    df_plot,
+    x=color,
+    y='minutes',
+    labels={
+        'minutes': '平均時間（分）'
+    },
+    title='分類別平均活動時間の分布'
+)
